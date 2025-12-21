@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Dante el gamer GitHub</title>
+
+  <!-- ICONO -->
+  <link rel="icon" type="image/png" href="Assets/icon.png">
+
+  <!-- ESTILOS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark">
+
+  <!-- AUDIO -->
+  <audio id="bgSound" src="song/song.mp3" preload="auto"></audio>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <span>Tema:</span>
+    <button id="themeToggle">🌙</button>
+  </nav>
+
+  <!-- HEADER -->
+  <header>
+    <h1>Dante el gamer</h1>
+    <p>Proyectos de GitHub 😎</p>
+    <input type="text" id="search" placeholder="🔍 Buscar repos...">
+  </header>
+
+  <!-- LOADER -->
+  <div id="loader">
+    <div class="loader-bar"></div>
+    <p>Cargando repos 🚀</p>
+  </div>
+
+  <!-- SOBRE MI -->
+  <section class="about">
+    <h2>🧠 Sobre mí</h2>
+    <p>
+      Soy <strong>dante</strong> 😎<br>
+      creador de contenido y programador 🚀<br>
+      me gusta programar cosas y grabar videos de FNF 💻✨
+    </p>
+
+    <div class="links">
+      <a href="https://www.youtube.com/@danteelgameryt" target="_blank">▶️ YouTube</a>
+      <a href="https://www.twitch.tv/danteelgamer_" target="_blank">🟣 Twitch</a>
+    </div>
+  </section>
+
+  <!-- REPOS -->
+  <main>
+    <div class="repos" id="repos"></div>
+  </main>
+
+  <!-- SCRIPT -->
+  <script>
+    const username = "dante-el-gamer";
+
+    const container = document.getElementById("repos");
+    const searchInput = document.getElementById("search");
+    const loader = document.getElementById("loader");
+    const toggle = document.getElementById("themeToggle");
+    const bgSound = document.getElementById("bgSound");
+
+    let allRepos = [];
+
+    // 🔊 reproducir sonido al primer click
+    document.addEventListener("click", () => {
+      if (bgSound.paused) {
+        bgSound.volume = 0.4;
+        bgSound.play();
+      }
+    }, { once: true });
+
+    fetch(`https://api.github.com/users/${username}/repos`)
+      .then(res => res.json())
+      .then(repos => {
+        repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
+        allRepos = repos;
+        loader.style.display = "none";
+        renderRepos(repos);
+      })
+      .catch(() => {
+        loader.innerHTML = "Error cargando repos 😭";
+      });
+
+    function renderRepos(repos) {
+      container.innerHTML = "";
+
+      repos.forEach(repo => {
+        const card = document.createElement("div");
+        card.className = "repo-card";
+
+        const updated = new Date(repo.updated_at).toLocaleDateString("es-CL");
+
+        card.innerHTML = `
+          <h3>
+            <a href="${repo.html_url}" target="_blank">${repo.name}</a>
+          </h3>
+          <p>${repo.description || "Description not found"}</p>
+
+          <div class="info">
+            <span>⭐ ${repo.stargazers_count}</span>
+            <span>🧠 ${repo.language || "language not found"}</span>
+            <span>🕒 ${updated}</span>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    searchInput.addEventListener("input", e => {
+      const value = e.target.value.toLowerCase();
+      renderRepos(
+        allRepos.filter(repo =>
+          repo.name.toLowerCase().includes(value)
+        )
+      );
+    });
+
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      document.body.classList.toggle("dark");
+      toggle.textContent =
+        document.body.classList.contains("dark") ? "🌙" : "✨";
+    });
+  </script>
+
+</body>
+</html>
+
