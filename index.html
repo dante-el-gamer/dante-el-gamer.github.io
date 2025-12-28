@@ -49,6 +49,22 @@
     </div>
   </section>
 
+  <!-- DISCORD -->
+  <section class="discord">
+    <h2>💬 Únete al Discord</h2>
+
+    <div class="discord-widget">
+      <iframe
+        src="https://discord.com/widget?id=1345781090375303308&theme=dark"
+        width="350"
+        height="500"
+        allowtransparency="true"
+        frameborder="0"
+        sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
+      </iframe>
+    </div>
+  </section>
+
   <!-- REPOS -->
   <main>
     <div class="repos" id="repos"></div>
@@ -66,7 +82,6 @@
 
     let allRepos = [];
 
-    // 🔊 reproducir sonido al primer click
     document.addEventListener("click", () => {
       if (bgSound.paused) {
         bgSound.volume = 0.4;
@@ -131,4 +146,3 @@
 
 </body>
 </html>
-
