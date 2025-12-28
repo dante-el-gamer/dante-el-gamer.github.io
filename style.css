@@ -115,13 +115,32 @@ header h1 {
   justify-content: center;
 }
 
-/* LINKS */
 .links a {
   border: 2px solid #facc15;
   padding: 10px 18px;
   border-radius: 25px;
   color: #facc15;
   text-decoration: none;
+}
+
+/* DISCORD */
+.discord {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 25px;
+  border: 2px solid #facc15;
+  border-radius: 20px;
+  text-align: center;
+}
+
+.discord h2 {
+  color: #facc15;
+  margin-bottom: 20px;
+}
+
+.discord-widget {
+  display: flex;
+  justify-content: center;
 }
 
 /* REPOS */
@@ -168,4 +187,3 @@ main {
   border-radius: 20px;
   color: #facc15;
 }
-
