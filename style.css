@@ -187,3 +187,64 @@ main {
   border-radius: 20px;
   color: #facc15;
 }
+
+/* DISCORD CARD NUEVO */
+.discord-card {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #202225;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.35);
+}
+
+.discord-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.discord-top img {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+}
+
+.discord-info {
+  flex: 1;
+  text-align: left;
+}
+
+.discord-info h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.discord-info span {
+  font-size: 12px;
+  color: #b9bbbe;
+}
+
+.discord-join {
+  background: #5865f2;
+  color: #fff;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.discord-join:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(88,101,242,0.6);
+}
+
+.discord-desc {
+  margin-top: 14px;
+  font-size: 13px;
+  color: #dcddde;
+  border-top: 1px solid #333;
+  padding-top: 10px;
+}
