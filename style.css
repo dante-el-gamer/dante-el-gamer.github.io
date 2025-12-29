@@ -138,56 +138,6 @@ header h1 {
   margin-bottom: 20px;
 }
 
-.discord-widget {
-  display: flex;
-  justify-content: center;
-}
-
-/* REPOS */
-main {
-  padding: 25px;
-}
-
-.repos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 22px;
-}
-
-.repo-card {
-  border: 2px solid #facc15;
-  border-radius: 18px;
-  padding: 18px;
-  background: rgba(0,0,0,0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.repo-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 0 20px rgba(250,204,21,0.4);
-}
-
-.repo-card a {
-  color: #facc15;
-  text-decoration: none;
-}
-
-/* INFO */
-.info {
-  margin-top: 12px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.info span {
-  font-size: 12px;
-  border: 1px solid #facc15;
-  padding: 4px 10px;
-  border-radius: 20px;
-  color: #facc15;
-}
-
 /* DISCORD CARD NUEVO */
 .discord-card {
   max-width: 400px;
@@ -247,4 +197,49 @@ main {
   color: #dcddde;
   border-top: 1px solid #333;
   padding-top: 10px;
+}
+
+/* REPOS */
+main {
+  padding: 25px;
+}
+
+.repos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 22px;
+}
+
+.repo-card {
+  border: 2px solid #facc15;
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(0,0,0,0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.repo-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 20px rgba(250,204,21,0.4);
+}
+
+.repo-card a {
+  color: #facc15;
+  text-decoration: none;
+}
+
+/* INFO */
+.info {
+  margin-top: 12px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.info span {
+  font-size: 12px;
+  border: 1px solid #facc15;
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #facc15;
 }
