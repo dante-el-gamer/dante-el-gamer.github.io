@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>404 - Página no encontrada</title>
+  <title>404</title>
   <style>
     body {
       background: #0f172a;
@@ -21,7 +21,7 @@
     }
 
     h1 {
-      font-size: 4rem;
+      font-size: 3.5rem;
       color: #facc15;
     }
 
@@ -47,11 +47,26 @@
   </style>
 </head>
 <body>
-  <div class="box">
-    <h1>404 😿</h1>
-    <p>Bro… esta página no existe o fue movida.</p>
-    <p>Quizás escribiste mal la URL o esta web aún no está lista 🚧</p>
-    <a href="/">Volver al inicio 🏠</a>
-  </div>
+  <div class="box" id="content"></div>
+
+  <script>
+    const content = document.getElementById("content");
+
+    if (location.pathname.endsWith("/404.html")) {
+      content.innerHTML = `
+        <h1>bro?</h1>
+        <p>XD creo que eres un buscador de secretos, JAJAJA</p>
+        <p>Pues este es el archivo 404.html y aqui se guarda el archivo de error.</p>
+        <a href="/">Salir de 404.html</a>
+      `;
+    } else {
+      content.innerHTML = `
+        <h1>404</h1>
+        <p>Esta página no existe o fue movida.</p>
+        <p>Quizás la URL está mal escrita o la web esta en desarrollo</p>
+        <a href="/">Volver al inicio 🏠</a>
+      `;
+    }
+  </script>
 </body>
 </html>
