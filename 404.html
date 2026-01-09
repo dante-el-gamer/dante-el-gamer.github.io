@@ -2,8 +2,9 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-   <link rel="icon" href="assets/icon.png" type="image/png">
+  <link rel="icon" href="assets/icon.png" type="image/png">
   <title>404</title>
+
   <style>
     body {
       background: #0f172a;
@@ -47,24 +48,35 @@
     }
   </style>
 </head>
+
 <body>
   <div class="box" id="content"></div>
 
   <script>
     const content = document.getElementById("content");
+    const path = location.pathname;
 
-    if (location.pathname.endsWith("/404.html")) {
+    if (path.endsWith("/404.html")) {
       content.innerHTML = `
-        <h1>bro?</h1>
+        <h1>bro? 🤨</h1>
         <p>XD creo que eres un buscador de secretos, JAJAJA</p>
-        <p>Pues este es el archivo 404.html y aqui se guarda el archivo de error.</p>
+        <p>Pues este es el archivo <b>404.html</b> y aquí vive el error 😎</p>
         <a href="/">Salir de 404.html</a>
       `;
-    } else {
+    } 
+    else if (path.startsWith("/AkiraAI-beta/")) {
       content.innerHTML = `
-        <h1>404</h1>
+        <h1>404 - AkiraAI 🤖</h1>
+        <p>Ups… esta parte de AkiraAI no existe 😿</p>
+        <p>Puede que sea una función beta aún en desarrollo 🚧</p>
+        <a href="/AkiraAI-beta/">Volver a AkiraAI</a>
+      `;
+    } 
+    else {
+      content.innerHTML = `
+        <h1>404 😿</h1>
         <p>Esta página no existe o fue movida.</p>
-        <p>Quizás la URL está mal escrita o la web esta en desarrollo</p>
+        <p>Quizás la URL está mal escrita o la web está en desarrollo 👀</p>
         <a href="/">Volver al inicio 🏠</a>
       `;
     }
