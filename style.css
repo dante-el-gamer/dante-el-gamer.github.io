@@ -182,3 +182,69 @@ main {
   border-radius: 20px;
   color: #facc15;
 }
+
+/* NAV LINKS */
+.nav-link {
+  color: #facc15;
+  text-decoration: none;
+  border: 1px solid #facc15;
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.nav-link.active {
+  background: #facc15;
+  color: #0d1117;
+  font-weight: 700;
+}
+
+/* ABOUT ME PAGE */
+.aboutme-page main {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.about-panel {
+  display: grid;
+  grid-template-columns: 12px 1fr;
+  border: 2px solid #facc15;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 40px 0;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.about-panel-bar {
+  background: linear-gradient(180deg, #facc15, #f59e0b);
+}
+
+.about-panel-content {
+  padding: 24px;
+}
+
+.about-panel-content h2 {
+  margin-top: 0;
+  color: #facc15;
+}
+
+.about-list {
+  padding-left: 20px;
+  line-height: 1.8;
+}
+
+@media (max-width: 640px) {
+  .navbar {
+    width: calc(100% - 24px);
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .about-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .about-panel-bar {
+    min-height: 8px;
+  }
+}
