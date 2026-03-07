@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AbautMe | Dante el gamer</title>
+  <link rel="icon" type="image/png" href="../Assets/icon.png">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body class="dark aboutme-page">
+  <nav class="navbar">
+    <a class="nav-link" href="../">🏠 Inicio</a>
+    <a class="nav-link active" href="./">🧠 AbautMe</a>
+    <span>Tema:</span>
+    <button id="themeToggle">🌙</button>
+  </nav>
+
+  <header>
+    <h1>🧠 AbautMe</h1>
+    <p>Una página dedicada con mi info y estilo gamer.</p>
+  </header>
+
+  <main>
+    <section class="about-panel">
+      <div class="about-panel-bar" aria-hidden="true"></div>
+      <div class="about-panel-content">
+        <h2>Hola, soy Dante 😎</h2>
+        <p>
+          Soy creador de contenido y programador. Me encanta crear proyectos,
+          jugar FNF y compartir cosas nuevas en internet.
+        </p>
+
+        <ul class="about-list">
+          <li>🚀 Programación y proyectos web</li>
+          <li>🎬 Creación de contenido para YouTube</li>
+          <li>🎮 Streams y comunidad en Twitch</li>
+        </ul>
+
+        <div class="links">
+          <a href="https://www.youtube.com/@danteelgameryt" target="_blank" rel="noopener noreferrer">▶️ YouTube</a>
+          <a href="https://www.twitch.tv/danteelgamer_" target="_blank" rel="noopener noreferrer">🟣 Twitch</a>
+          <a href="mailto:dante@example.com">📩 Contacto</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const toggle = document.getElementById("themeToggle");
+
+    toggle.addEventListener("click", () => {
+      document.body.classList.toggle("light");
+      document.body.classList.toggle("dark");
+      toggle.textContent =
+        document.body.classList.contains("dark") ? "🌙" : "✨";
+    });
+  </script>
+</body>
+</html>
