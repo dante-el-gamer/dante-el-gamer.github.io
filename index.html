@@ -1,133 +1,186 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta name="google-site-verification" content="roq6RnSCsOyLs20Zp5apNDDtors8I2SNRJjnXep95w0" />
   <meta charset="UTF-8">
-  <title>Dante el gamer GitHub</title>
-
-  <!-- ICONO -->
-  <link rel="icon" type="image/png" href="Assets/icon.png">
-
-  <!-- ESTILOS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dante el Gamer — Programador, creador de contenido y artista.">
+  <meta name="author" content="Dante el Gamer">
+  <title data-en="Dante el Gamer — Developer, Content Creator & Artist" data-es="Dante el Gamer — Programador, Creador de Contenido y Artista">Dante el Gamer — Programador, Creador de Contenido y Artista</title>
+  <link rel="icon" type="image/png" href="assets/DanteElGamerCharLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="dark">
+<body>
 
-  <!-- AUDIO -->
-  <audio id="bgSound" src="song/song.mp3" preload="auto"></audio>
+  <script src="nav.js"></script>
+  <div id="nav"></div>
+  <script>renderNav('home');</script>
 
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <span>Tema:</span>
-    <button id="themeToggle">🌙</button>
-  </nav>
-
-  <!-- HEADER -->
-  <header>
-    <h1>Dante el gamer</h1>
-    <p>Proyectos de GitHub 😎</p>
-    <input type="text" id="search" placeholder="🔍 Buscar repos...">
-  </header>
-
-  <!-- LOADER -->
-  <div id="loader">
-    <div class="loader-bar"></div>
-    <p>Cargando repos 🚀</p>
-  </div>
-
-  <!-- SOBRE MI -->
-  <section class="about">
-    <h2>🧠 Sobre mí</h2>
-    <p>
-      Soy <strong>dante</strong> 😎<br>
-      creador de contenido y programador 🚀<br>
-      me gusta programar cosas y grabar videos de FNF 💻✨
-    </p>
-
-    <div class="links">
-      <a href="https://www.youtube.com/@danteelgameryt" target="_blank">▶️ YouTube</a>
-      <a href="https://www.twitch.tv/danteelgamer_" target="_blank">🟣 Twitch</a>
+  <!-- ===== HERO ===== -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <img src="assets/DanteElGamerCharLogo.png" alt="Dante el Gamer" class="hero-logo">
+      <h1 class="hero-title" data-en="Dante el Gamer" data-es="Dante el Gamer">Dante el Gamer</h1>
+      <p class="hero-subtitle" data-en="Developer · Content Creator · Artist" data-es="Programador · Creador de Contenido · Artista">Programador · Creador de Contenido · Artista</p>
+      <p class="hero-tagline" data-en="100% human" data-es="100% humano">100% humano</p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary" data-en="See my projects" data-es="Ver proyectos">Ver proyectos</a>
+        <a href="#contact" class="btn btn-secondary" data-en="Get in touch" data-es="Contactar">Contactar</a>
+      </div>
     </div>
   </section>
 
-  <!-- REPOS -->
-  <main>
-    <div class="repos" id="repos"></div>
-  </main>
+  <!-- ===== PROJECTS ===== -->
+  <section class="section section-alt" id="projects">
+    <div class="section-inner">
+      <h2 class="section-title" data-en="Projects" data-es="Proyectos">Proyectos</h2>
+      <div class="projects-grid">
 
-  <!-- SCRIPT -->
-  <script>
-    const username = "dante-el-gamer";
-
-    const container = document.getElementById("repos");
-    const searchInput = document.getElementById("search");
-    const loader = document.getElementById("loader");
-    const toggle = document.getElementById("themeToggle");
-    const bgSound = document.getElementById("bgSound");
-
-    let allRepos = [];
-
-    document.addEventListener("click", () => {
-      if (bgSound.paused) {
-        bgSound.volume = 0.4;
-        bgSound.play();
-      }
-    }, { once: true });
-
-    fetch(`https://api.github.com/users/${username}/repos`)
-      .then(res => res.json())
-      .then(repos => {
-        repos.sort((a, b) => b.stargazers_count - a.stargazers_count);
-        allRepos = repos;
-        loader.style.display = "none";
-        renderRepos(repos);
-      })
-      .catch(() => {
-        loader.innerHTML = "Error cargando repos 😭";
-      });
-
-    function renderRepos(repos) {
-      container.innerHTML = "";
-
-      repos.forEach(repo => {
-        const card = document.createElement("div");
-        card.className = "repo-card";
-
-        const updated = new Date(repo.updated_at).toLocaleDateString("es-CL");
-
-        card.innerHTML = `
-          <h3>
-            <a href="${repo.html_url}" target="_blank">${repo.name}</a>
-          </h3>
-          <p>${repo.description || "Description not found"}</p>
-
-          <div class="info">
-            <span>⭐ ${repo.stargazers_count}</span>
-            <span>🧠 ${repo.language || "language not found"}</span>
-            <span>🕒 ${updated}</span>
+        <!-- Optimized Engine V1 -->
+        <div class="project-card">
+          <div class="project-preview">
+            <img src="assets/Projects/Optimized%20Engine%20V1/CapturasDePantalla/OEmenu.png" alt="Optimized Engine V1" loading="lazy">
           </div>
-        `;
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="tag">FNF</span>
+              <span class="tag">Engine</span>
+            </div>
+            <h3 class="project-title">Optimized Engine V1</h3>
+            <p class="project-desc" data-en="A performance-focused Friday Night Funkin' engine with optimized code and new features."
+               data-es="Un engine de Friday Night Funkin' enfocado en rendimiento con código optimizado y nuevas funcionalidades.">
+              Un engine de Friday Night Funkin' enfocado en rendimiento con código optimizado y nuevas funcionalidades.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/danteelgamer/OptimizedEngineV1" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
+            </div>
+          </div>
+        </div>
 
-        container.appendChild(card);
-      });
-    }
+        <!-- Optimized Engine V2 -->
+        <div class="project-card">
+          <div class="project-preview">
+            <div class="project-logo-svg">
+              <img src="assets/Projects/Optimized%20Engine%20V2/OptimizedEngineV2logo.png" alt="Optimized Engine V2" loading="lazy">
+            </div>
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="tag">FNF</span>
+              <span class="tag">Engine</span>
+              <span class="tag">V2</span>
+            </div>
+            <h3 class="project-title">Optimized Engine V2</h3>
+            <p class="project-desc" data-en="The next generation — rebuilt from the ground up with even better performance and modular design."
+               data-es="La siguiente generación — reconstruido desde cero con mejor rendimiento y diseño modular.">
+              La siguiente generación — reconstruido desde cero con mejor rendimiento y diseño modular.
+            </p>
+            <div class="project-links">
+              <a href="https://github.com/danteelgamer/OptimizedEngineV2" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
+            </div>
+          </div>
+        </div>
 
-    searchInput.addEventListener("input", e => {
-      const value = e.target.value.toLowerCase();
-      renderRepos(
-        allRepos.filter(repo =>
-          repo.name.toLowerCase().includes(value)
-        )
-      );
-    });
+        <!-- ClassDeck -->
+        <div class="project-card">
+          <div class="project-preview">
+            <img src="assets/Projects/ClassDeck/ClassDeckLogo.png" alt="ClassDeck" loading="lazy">
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="tag">Game</span>
+              <span class="tag">Cards</span>
+            </div>
+            <h3 class="project-title">ClassDeck</h3>
+            <p class="project-desc" data-en="A card game project — strategy, classes, and deck-building mechanics."
+               data-es="Un proyecto de juego de cartas — estrategia, clases y mecánicas de construcción de mazos.">
+              Un proyecto de juego de cartas — estrategia, clases y mecánicas de construcción de mazos.
+            </p>
+          </div>
+        </div>
 
-    toggle.addEventListener("click", () => {
-      document.body.classList.toggle("light");
-      document.body.classList.toggle("dark");
-      toggle.textContent =
-        document.body.classList.contains("dark") ? "🌙" : "✨";
-    });
-  </script>
+      </div>
+    </div>
+  </section>
 
+  <!-- ===== CONTACT ===== -->
+  <section class="section" id="contact">
+    <div class="section-inner">
+      <h2 class="section-title" data-en="Contact" data-es="Contacto">Contacto</h2>
+      <p class="contact-intro" data-en="Find me around the web — let's connect!"
+         data-es="Encontrame por la web — ¡conectemos!">
+        Encontrame por la web — ¡conectemos!
+      </p>
+
+      <div class="social-grid">
+
+        <a href="https://www.youtube.com/@danteelgamerYT" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/YouTube.png" alt="YouTube" class="social-icon">
+          <span class="social-name">YouTube</span>
+        </a>
+
+        <a href="https://www.twitch.tv/danteelgamer_" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/Twitch.png" alt="Twitch" class="social-icon">
+          <span class="social-name">Twitch</span>
+        </a>
+
+        <a href="https://soundcloud.com/user-366447489" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/SoundCloud.png" alt="SoundCloud" class="social-icon">
+          <span class="social-name">SoundCloud</span>
+        </a>
+
+        <a href="https://github.com/dante-el-gamer" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/GitHub.png" alt="GitHUb" class="social-icon">
+          <span class="social-name">GitHub</span>
+        </a>
+
+
+        <a href="https://itch.io/profile/danteelgamer-yt" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/ItchIo.png" alt="Itch.io" class="social-icon">
+          <span class="social-name">Itch.io</span>
+        </a>
+
+        <a href="https://danteelgameyt.newgrounds.com/" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/NewGrounds.png" alt="Newgrounds" class="social-icon">
+          <span class="social-name">Newgrounds</span>
+        </a>
+
+        <a href="https://penguinmod.com/profile?user=danteelgamer_yt" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/PenguinMod.png" alt="PenguinMod" class="social-icon">
+          <span class="social-name">PenguinMod</span>
+        </a>
+
+        <a href="https://www.roblox.com/es/users/1250726176/profile" target="_blank" rel="noopener" class="social-link">
+          <img src="assets/logos/Roblox.png" alt="Roblox" class="social-icon">
+          <span class="social-name">Roblox</span>
+        </a>
+
+      </div>
+
+      <div class="contact-email">
+        <a href="mailto:contacto.danteelgamer@gmail.com" class="email-link">
+          <img src="assets/logos/GMail.png" alt="Gmail" class="social-icon">
+          <span>contacto.danteelgamer@gmail.com</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="assets/DanteElGamerCharLogo.png" alt="Dante" class="footer-logo">
+      <p class="footer-text" data-en="© 2026 Dante el Gamer. All rights reserved."
+         data-es="© 2026 Dante el Gamer. Todos los derechos reservados.">
+        © 2026 Dante el Gamer. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <link rel="stylesheet" href="assets/Animations/search.css">
+  <script src="script.js"></script>
 </body>
 </html>

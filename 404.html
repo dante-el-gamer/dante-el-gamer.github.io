@@ -2,84 +2,57 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" href="assets/icon.png" type="image/png">
-  <title>404</title>
-
-  <style>
-    body {
-      background: #0f172a;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
-
-    .box {
-      max-width: 500px;
-    }
-
-    h1 {
-      font-size: 3.5rem;
-      color: #facc15;
-    }
-
-    p {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-
-    a {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 10px 20px;
-      background: #38bdf8;
-      color: black;
-      text-decoration: none;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    a:hover {
-      background: #0ea5e9;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="404 — Página no encontrada | Dante el Gamer">
+  <meta name="author" content="Dante el Gamer">
+  <title data-en="404 — Page not found | Dante el Gamer" data-es="404 — Página no encontrada | Dante el Gamer">404 — Página no encontrada | Dante el Gamer</title>
+  <link rel="icon" type="image/png" href="assets/DanteElGamerCharLogo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-  <div class="box" id="content"></div>
 
-  <script>
-    const content = document.getElementById("content");
-    const path = location.pathname;
+  <script src="nav.js"></script>
+  <div id="nav"></div>
+  <script>renderNav('home');</script>
 
-    if (path.endsWith("/404.html")) {
-      content.innerHTML = `
-        <h1>bro? 🤨</h1>
-        <p>XD creo que eres un buscador de secretos, JAJAJA</p>
-        <p>Pues este es el archivo <b>404.html</b> y aquí vive el error 😎</p>
-        <a href="/">Salir de 404.html</a>
-      `;
-    } 
-    else if (path.startsWith("/AkiraAI-beta/")) {
-      content.innerHTML = `
-        <h1>404 - AkiraAI 🤖</h1>
-        <p>Ups… esta parte de AkiraAI no existe 😿</p>
-        <p>Puede que sea una función beta aún en desarrollo 🚧</p>
-        <a href="/AkiraAI-beta/">Volver a AkiraAI</a>
-      `;
-    } 
-    else {
-      content.innerHTML = `
-        <h1>404 😿</h1>
-        <p>Esta página no existe o fue movida.</p>
-        <p>Quizás la URL está mal escrita o la web está en desarrollo 👀</p>
-        <a href="/">Volver al inicio 🏠</a>
-      `;
-    }
-  </script>
+  <!-- ===== 404 CONTENT ===== -->
+  <section class="page-404">
+    <div class="page-404-bg"></div>
+    <div class="page-404-content">
+
+      <div class="page-404-row">
+        <img src="404html/TrollFace.png" alt="Troll Face" class="page-404-troll">
+
+        <div class="page-404-center">
+          <div class="page-404-code">404</div>
+          <div class="page-404-sub" data-en="error — page not found" data-es="error — página no encontrada">error — página no encontrada</div>
+        </div>
+
+        <img src="404html/PezQueGira.gif" alt="Pez que gira" class="page-404-fish">
+      </div>
+
+      <div class="page-404-actions">
+        <a href="/" class="btn btn-primary" data-en="Go home" data-es="Ir al inicio">Ir al inicio</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <img src="assets/DanteElGamerCharLogo.png" alt="Dante" class="footer-logo">
+      <p class="footer-text" data-en="© 2026 Dante el Gamer. All rights reserved."
+         data-es="© 2026 Dante el Gamer. Todos los derechos reservados.">
+        © 2026 Dante el Gamer. Todos los derechos reservados.
+      </p>
+    </div>
+  </footer>
+
+  <link rel="stylesheet" href="assets/Animations/search.css">
+  <script src="script.js"></script>
 </body>
 </html>
