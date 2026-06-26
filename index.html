@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Dante el Gamer — Programador, creador de contenido y artista.">
   <meta name="author" content="Dante el Gamer">
-  <title data-en="Dante el Gamer — Developer, Content Creator & Artist" data-es="Dante el Gamer — Programador, Creador de Contenido y Artista">Dante el Gamer — Programador, Creador de Contenido y Artista</title>
+  <title data-i18n="page.home.title"></title>
   <link rel="icon" type="image/png" href="assets/DanteElGamerCharLogo.png">
+  <link rel="manifest" href="/PWA/manifest.json">
+  <meta name="theme-color" content="#202225">
+  <link rel="apple-touch-icon" href="/PWA/Icon/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -23,12 +27,12 @@
     <div class="hero-bg"></div>
     <div class="hero-content">
       <img src="assets/DanteElGamerCharLogo.png" alt="Dante el Gamer" class="hero-logo">
-      <h1 class="hero-title" data-en="Dante el Gamer" data-es="Dante el Gamer">Dante el Gamer</h1>
-      <p class="hero-subtitle" data-en="Developer · Content Creator · Artist" data-es="Programador · Creador de Contenido · Artista">Programador · Creador de Contenido · Artista</p>
-      <p class="hero-tagline" data-en="100% human" data-es="100% humano">100% humano</p>
+      <h1 class="hero-title" data-i18n="hero.title"></h1>
+      <p class="hero-subtitle" data-i18n="hero.subtitle"></p>
+      <p class="hero-tagline" data-i18n="hero.tagline"></p>
       <div class="hero-cta">
-        <a href="#projects" class="btn btn-primary" data-en="See my projects" data-es="Ver proyectos">Ver proyectos</a>
-        <a href="#contact" class="btn btn-secondary" data-en="Get in touch" data-es="Contactar">Contactar</a>
+        <a href="#projects" class="btn btn-primary" data-i18n="hero.cta.projects"></a>
+        <a href="#contact" class="btn btn-secondary" data-i18n="hero.cta.contact"></a>
       </div>
     </div>
   </section>
@@ -36,7 +40,7 @@
   <!-- ===== PROJECTS ===== -->
   <section class="section section-alt" id="projects">
     <div class="section-inner">
-      <h2 class="section-title" data-en="Projects" data-es="Proyectos">Proyectos</h2>
+      <h2 class="section-title" data-i18n="projects.title"></h2>
       <div class="projects-grid">
 
         <!-- Optimized Engine V1 -->
@@ -49,11 +53,8 @@
               <span class="tag">FNF</span>
               <span class="tag">Engine</span>
             </div>
-            <h3 class="project-title">Optimized Engine V1</h3>
-            <p class="project-desc" data-en="A performance-focused Friday Night Funkin' engine with optimized code and new features."
-               data-es="Un engine de Friday Night Funkin' enfocado en rendimiento con código optimizado y nuevas funcionalidades.">
-              Un engine de Friday Night Funkin' enfocado en rendimiento con código optimizado y nuevas funcionalidades.
-            </p>
+            <h3 class="project-title" data-i18n="projects.oe1.title"></h3>
+            <p class="project-desc" data-i18n="projects.oe1.desc"></p>
             <div class="project-links">
               <a href="https://github.com/danteelgamer/OptimizedEngineV1" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
             </div>
@@ -73,11 +74,8 @@
               <span class="tag">Engine</span>
               <span class="tag">V2</span>
             </div>
-            <h3 class="project-title">Optimized Engine V2</h3>
-            <p class="project-desc" data-en="The next generation — rebuilt from the ground up with even better performance and modular design."
-               data-es="La siguiente generación — reconstruido desde cero con mejor rendimiento y diseño modular.">
-              La siguiente generación — reconstruido desde cero con mejor rendimiento y diseño modular.
-            </p>
+            <h3 class="project-title" data-i18n="projects.oe2.title"></h3>
+            <p class="project-desc" data-i18n="projects.oe2.desc"></p>
             <div class="project-links">
               <a href="https://github.com/danteelgamer/OptimizedEngineV2" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
             </div>
@@ -94,11 +92,8 @@
               <span class="tag">Game</span>
               <span class="tag">Cards</span>
             </div>
-            <h3 class="project-title">ClassDeck</h3>
-            <p class="project-desc" data-en="A card game project — strategy, classes, and deck-building mechanics."
-               data-es="Un proyecto de juego de cartas — estrategia, clases y mecánicas de construcción de mazos.">
-              Un proyecto de juego de cartas — estrategia, clases y mecánicas de construcción de mazos.
-            </p>
+            <h3 class="project-title" data-i18n="projects.classdeck.title"></h3>
+            <p class="project-desc" data-i18n="projects.classdeck.desc"></p>
           </div>
         </div>
 
@@ -109,11 +104,8 @@
   <!-- ===== CONTACT ===== -->
   <section class="section" id="contact">
     <div class="section-inner">
-      <h2 class="section-title" data-en="Contact" data-es="Contacto">Contacto</h2>
-      <p class="contact-intro" data-en="Find me around the web — let's connect!"
-         data-es="Encontrame por la web — ¡conectemos!">
-        Encontrame por la web — ¡conectemos!
-      </p>
+      <h2 class="section-title" data-i18n="contact.title"></h2>
+      <p class="contact-intro" data-i18n="contact.intro"></p>
 
       <div class="social-grid">
 
@@ -136,7 +128,6 @@
           <img src="assets/logos/GitHub.png" alt="GitHUb" class="social-icon">
           <span class="social-name">GitHub</span>
         </a>
-
 
         <a href="https://itch.io/profile/danteelgamer-yt" target="_blank" rel="noopener" class="social-link">
           <img src="assets/logos/ItchIo.png" alt="Itch.io" class="social-icon">
@@ -162,7 +153,7 @@
 
       <div class="contact-email">
         <a href="mailto:contacto.danteelgamer@gmail.com" class="email-link">
-          <img src="assets/logos/GMail.png" alt="Gmail" class="social-icon">
+          <span class="material-symbols-outlined" style="font-size:24px;" aria-hidden="true">mail</span>
           <span>contacto.danteelgamer@gmail.com</span>
         </a>
       </div>
@@ -173,13 +164,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <img src="assets/DanteElGamerCharLogo.png" alt="Dante" class="footer-logo">
-      <p class="footer-text" data-en="© 2026 Dante el Gamer. All rights reserved."
-         data-es="© 2026 Dante el Gamer. Todos los derechos reservados.">
-        © 2026 Dante el Gamer. Todos los derechos reservados.
-      </p>
+      <p class="footer-text" data-i18n="footer.copyright"></p>
     </div>
   </footer>
 
+  <div id="settings"></div>
+  <script src="i18n.js"></script>
+  <script src="settings.js"></script>
+  <script>renderSettings();</script>
   <link rel="stylesheet" href="assets/Animations/search.css">
   <script src="script.js"></script>
 </body>

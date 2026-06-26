@@ -1,64 +1,126 @@
+/**
+ * Main Script — Language, Settings Init, Search, UI interactions
+ *
+ * Loading order: nav.js → i18n.js → settings.js → script.js
+ * I18N global is available at this point.
+ */
+
 let currentLang = localStorage.getItem('dante-lang') || 'es';
+
+// ============================================
+// i18n Engine
+// ============================================
+
+/**
+ * Apply translations from I18N to all [data-i18n] elements.
+ * Fallback chain: selected lang → ES → key string.
+ * Handles badges via data-i18n-badge attribute.
+ * Updates <html lang> and settings language select.
+ */
+function applyI18n(lang) {
+  var translations = I18N[lang];
+  if (!translations) translations = I18N.es || {};
+
+  document.querySelectorAll('[data-i18n]').forEach(function (el) {
+    var key = el.getAttribute('data-i18n');
+    var text = translations[key];
+    if (!text) text = I18N.es ? I18N.es[key] : key;
+    if (!text) text = key;
+
+    if (el.tagName === 'TITLE') {
+      el.innerText = text;
+    } else {
+      var badgeKey = el.getAttribute('data-i18n-badge');
+      var badgeText = '';
+      if (badgeKey) {
+        var badgeVal = translations[badgeKey] || (I18N.es ? I18N.es[badgeKey] : badgeKey) || badgeKey;
+        badgeText = ' <span class="i18n-badge">(' + badgeVal + ')</span>';
+      }
+      el.innerHTML = text + badgeText;
+    }
+  });
+
+  document.documentElement.lang = lang;
+
+  // Sync settings language select
+  var select = document.getElementById('settingsLang');
+  if (select) select.value = lang;
+}
 
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('dante-lang', lang);
-
-  // Update all elements with data-en / data-es
-  document.querySelectorAll('[data-en]').forEach(el => {
-    const key = el.tagName === 'TITLE' ? 'innerText' : 'innerHTML';
-    if (el.dataset[lang]) {
-      el[key] = el.dataset[lang];
-    }
-  });
-
-  // Update <html> lang attribute
-  document.documentElement.lang = lang;
-
-  // Update lang toggle UI
-  document.querySelectorAll('.lang-flag').forEach(opt => {
-    opt.classList.toggle('active', opt.dataset.lang === lang);
-  });
+  applyI18n(lang);
 }
 
-function toggleLang() {
-  setLang(currentLang === 'es' ? 'en' : 'es');
-  // Close mobile menu when switching language
-  const navLinks = document.getElementById('navLinks');
-  navLinks.classList.remove('open');
-  document.getElementById('hamburger').setAttribute('aria-expanded', 'false');
+// ============================================
+// Settings Init — Theme, Motion, Font Size
+// ============================================
+
+/**
+ * Apply saved settings from localStorage on page load.
+ * Called from DOMContentLoaded.
+ */
+function applySavedSettings() {
+  // Theme
+  var theme = localStorage.getItem('dante-theme') || 'dark';
+  // applyTheme is defined in settings.js — ensure it exists
+  if (typeof applyTheme === 'function') {
+    applyTheme(theme);
+  } else {
+    // Fallback: set class directly
+    document.documentElement.classList.add('theme-' + theme);
+  }
+
+  // Motion
+  var motion = localStorage.getItem('dante-motion');
+  if (motion === 'reduce') {
+    document.documentElement.setAttribute('data-motion', 'reduce');
+  }
+
+  // Font size
+  var fontSize = localStorage.getItem('dante-font-size') || 'small';
+  if (typeof applyFontScale === 'function') {
+    applyFontScale(fontSize);
+  } else {
+    var sizes = { small: '16px', medium: '20px', large: '24px' };
+    document.documentElement.style.fontSize = sizes[fontSize] || '16px';
+  }
 }
+
+// ============================================
+// Menu Toggle
+// ============================================
 
 function toggleMenu() {
-  const nav = document.getElementById('navLinks');
-  const btn = document.getElementById('hamburger');
+  var nav = document.getElementById('navLinks');
+  var btn = document.getElementById('hamburger');
+  if (!nav || !btn) return;
   nav.classList.toggle('open');
   btn.classList.toggle('open');
   btn.setAttribute('aria-expanded', nav.classList.contains('open'));
 }
 
 // Close menu on link click (mobile)
-document.getElementById('navLinks').addEventListener('click', (e) => {
-  if (e.target.tagName === 'A') {
-    document.getElementById('navLinks').classList.remove('open');
-    const btn = document.getElementById('hamburger');
-    if (btn) btn.setAttribute('aria-expanded', 'false');
+document.addEventListener('DOMContentLoaded', function () {
+  var navLinks = document.getElementById('navLinks');
+  if (navLinks) {
+    navLinks.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        navLinks.classList.remove('open');
+        var btn = document.getElementById('hamburger');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }
+    });
   }
 });
 
-// Apply saved language on load
-setLang(currentLang);
-
-// Set initial aria-expanded on hamburger button
-const hamburger = document.getElementById('hamburger');
-if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
-
 // Close menu on scroll
-let lastScroll = 0;
-window.addEventListener('scroll', () => {
-  const navLinks = document.getElementById('navLinks');
-  if (navLinks.classList.contains('open')) {
-    const currentScroll = window.pageYOffset;
+var lastScroll = 0;
+window.addEventListener('scroll', function () {
+  var navLinks = document.getElementById('navLinks');
+  if (navLinks && navLinks.classList.contains('open')) {
+    var currentScroll = window.pageYOffset;
     if (Math.abs(currentScroll - lastScroll) > 50) {
       navLinks.classList.remove('open');
     }
@@ -67,22 +129,17 @@ window.addEventListener('scroll', () => {
 });
 
 // ============================================
-// Search Logic — Unit 2
-// Functions called from nav.js and user events
+// Search Logic
 // ============================================
 
-let searchState = {
+var searchState = {
   inputVisible: false,
   overlayVisible: false,
 };
 
-/**
- * Toggle search input visibility in nav.
- * Shows/hides the input field with focus management.
- */
 function toggleSearchInput() {
-  const wrapper = document.getElementById('searchInputWrapper');
-  const input = document.getElementById('searchInput');
+  var wrapper = document.getElementById('searchInputWrapper');
+  var input = document.getElementById('searchInput');
   if (!wrapper || !input) return;
 
   searchState.inputVisible = !searchState.inputVisible;
@@ -90,37 +147,30 @@ function toggleSearchInput() {
   if (searchState.inputVisible) {
     wrapper.classList.add('visible');
     wrapper.style.display = 'flex';
+    document.getElementById('navLinks').classList.add('search-open');
     input.focus();
   } else {
     wrapper.classList.remove('visible');
     wrapper.style.display = '';
+    document.getElementById('navLinks').classList.remove('search-open');
     input.value = '';
     hideDropdown();
   }
 }
 
-/**
- * Close search input without toggling.
- * Called by close button and Escape handler.
- */
 function closeSearchInput() {
-  const wrapper = document.getElementById('searchInputWrapper');
-  const input = document.getElementById('searchInput');
+  var wrapper = document.getElementById('searchInputWrapper');
+  var input = document.getElementById('searchInput');
   if (!wrapper || !input) return;
 
   searchState.inputVisible = false;
   wrapper.classList.remove('visible');
   wrapper.style.display = '';
+  document.getElementById('navLinks').classList.remove('search-open');
   input.value = '';
   hideDropdown();
 }
 
-/**
- * Filter results from SEARCH_INDEX against a query.
- * Bilingual, case-insensitive, partial match.
- * Title match scores 10, keyword match scores 5, exact keyword match +3.
- * Returns sorted array of {item, score}.
- */
 function filterResults(query) {
   if (!query || query.trim() === '') return [];
 
@@ -131,13 +181,11 @@ function filterResults(query) {
     var item = SEARCH_INDEX[i];
     var score = 0;
 
-    // Title match (highest weight)
     if (item.title.en.toLowerCase().indexOf(q) !== -1 ||
         item.title.es.toLowerCase().indexOf(q) !== -1) {
       score += 10;
     }
 
-    // Keyword match across both languages
     var allKeywords = item.keywords.en.concat(item.keywords.es);
     for (var k = 0; k < allKeywords.length; k++) {
       var kw = allKeywords[k].toLowerCase();
@@ -155,7 +203,6 @@ function filterResults(query) {
   }
 
   results.sort(function (a, b) { return b.score - a.score; });
-  // Return just the items (sorted)
   var sorted = [];
   for (var r = 0; r < results.length; r++) {
     sorted.push(results[r].item);
@@ -163,25 +210,15 @@ function filterResults(query) {
   return sorted;
 }
 
-/**
- * Perform search and show results.
- * Connected to input keydown and search button.
- */
 function performSearch(query) {
   hideDropdown();
   if (!query || query.trim() === '') return;
-
   var results = filterResults(query);
-
   if (results.length > 0) {
     showDropdown(results);
   }
 }
 
-/**
- * Show inline dropdown below search input (up to 4 results).
- * If more than 4, show "Show more" button.
- */
 function showDropdown(results) {
   hideDropdown();
 
@@ -208,7 +245,8 @@ function showDropdown(results) {
   if (results.length > maxVisible) {
     var moreBtn = document.createElement('button');
     moreBtn.className = 'search-dropdown-more';
-    moreBtn.textContent = 'Mostrar m\u00e1s / Show more';
+    var showMoreText = (I18N[lang] || I18N.es || {})['search.showmore'] || 'Show more';
+    moreBtn.innerHTML = showMoreText + ' <span class="material-symbols-outlined" style="font-size:18px;vertical-align:middle;" aria-hidden="true">expand_more</span>';
     moreBtn.addEventListener('click', function () {
       var input = document.getElementById('searchInput');
       var q = input ? input.value : '';
@@ -222,26 +260,18 @@ function showDropdown(results) {
   wrapper.appendChild(dropdown);
 }
 
-/**
- * Remove the dropdown from DOM.
- */
 function hideDropdown() {
   var existing = document.getElementById('searchDropdown');
   if (existing) existing.remove();
 }
 
-/**
- * Show full-viewport search overlay with logo and animated dots.
- * Random duration 2000-3000ms, then transitions to results view.
- */
 function showSearchOverlay(query) {
   if (!query || query.trim() === '') return;
-
-  // Prevent duplicate overlay
   if (document.getElementById('searchOverlay')) return;
 
   var lang = localStorage.getItem('dante-lang') || 'es';
-  var searchingText = lang === 'es' ? 'Buscando' : 'Searching';
+  var tr = I18N[lang] || I18N.es || {};
+  var searchingText = tr['search.searching'] || 'Searching';
 
   var overlay = document.createElement('div');
   overlay.className = 'search-overlay';
@@ -257,9 +287,7 @@ function showSearchOverlay(query) {
   document.body.appendChild(overlay);
   searchState.overlayVisible = true;
 
-  // Random duration between 2000ms and 3000ms
   var duration = 2000 + Math.floor(Math.random() * 1000);
-
   setTimeout(function () {
     hideSearchOverlay();
     var results = filterResults(query);
@@ -267,9 +295,6 @@ function showSearchOverlay(query) {
   }, duration);
 }
 
-/**
- * Fade out and remove the overlay.
- */
 function hideSearchOverlay() {
   var overlay = document.getElementById('searchOverlay');
   if (overlay) {
@@ -279,14 +304,10 @@ function hideSearchOverlay() {
   searchState.overlayVisible = false;
 }
 
-/**
- * Replace main content with search results cards.
- * Each result is a clickable card. "Clear search" button to restore.
- */
 function showResultsView(results, query) {
   var lang = localStorage.getItem('dante-lang') || 'es';
+  var tr = I18N[lang] || I18N.es || {};
 
-  // Hide original content sections
   var sections = document.querySelectorAll('.hero, .section, .page-header, .page-404, .footer');
   for (var i = 0; i < sections.length; i++) {
     sections[i].style.display = 'none';
@@ -297,18 +318,20 @@ function showResultsView(results, query) {
   container.id = 'searchResultsView';
 
   if (results.length === 0) {
+    var noResultsText = tr['search.noresults'] || 'No results for';
     container.innerHTML =
       '<div class="search-no-results">' +
-        '<div class="search-no-results-icon" style="font-size:3rem;opacity:0.4;">&#x1F50D;</div>' +
+        '<div class="search-no-results-icon" style="font-size:3rem;opacity:0.4;"><span class="material-symbols-outlined" style="font-size:3rem;">search_off</span></div>' +
         '<p style="font-size:1.1rem;color:var(--bwhite,#8e9297);">' +
-          (lang === 'es' ? 'Sin resultados para' : 'No results for') +
+          noResultsText +
           ' <strong>"' + query + '"</strong>' +
         '</p>' +
       '</div>';
   } else {
+    var resultsTitleText = tr['search.results'] || 'Results for';
     var titleHtml = '<h2 class="search-results-title">' +
-      (lang === 'es' ? 'Resultados para' : 'Results for') +
-      ' "<strong>' + query + '</strong>"</h2>';
+      resultsTitleText +
+      ' "<strong>' + query + '"</strong></h2>';
     container.innerHTML = titleHtml;
 
     for (var i = 0; i < results.length; i++) {
@@ -331,10 +354,10 @@ function showResultsView(results, query) {
     }
   }
 
-  // Clear button
+  var clearBtnText = tr['search.clearbtn'] || 'Clear search';
   var clearBtn = document.createElement('button');
   clearBtn.className = 'search-clear-btn';
-  clearBtn.textContent = lang === 'es' ? 'Limpiar b\u00fasqueda' : 'Clear search';
+  clearBtn.innerHTML = '<span class="material-symbols-outlined" style="font-size:20px;vertical-align:middle;" aria-hidden="true">close</span> ' + clearBtnText;
   clearBtn.addEventListener('click', function () {
     clearSearch();
   });
@@ -343,30 +366,217 @@ function showResultsView(results, query) {
   document.body.appendChild(container);
 }
 
-/**
- * Restore original page content and reset search state.
- */
 function clearSearch() {
-  // Remove results view
   var resultsView = document.getElementById('searchResultsView');
   if (resultsView) resultsView.remove();
 
-  // Restore original content sections
   var sections = document.querySelectorAll('.hero, .section, .page-header, .page-404, .footer');
   for (var i = 0; i < sections.length; i++) {
     sections[i].style.display = '';
   }
 
-  // Remove overlay
   hideSearchOverlay();
-
-  // Hide dropdown and input
   hideDropdown();
   closeSearchInput();
 }
 
-// ===== Input event listeners =====
+// ============================================
+// Scroll to Top
+// ============================================
+
+function renderScrollTopBtn() {
+  var btn = document.createElement('button');
+  btn.className = 'scroll-top-btn';
+  btn.id = 'scrollTopBtn';
+  btn.setAttribute('aria-label', 'Scroll to top');
+  btn.innerHTML = '<span class="material-symbols-outlined">keyboard_arrow_up</span>';
+  btn.onclick = function () {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  document.body.appendChild(btn);
+
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (!ticking) {
+      requestAnimationFrame(function () {
+        btn.classList.toggle('visible', window.pageYOffset > 300);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+}
+
+// ============================================
+// Keyboard Shortcuts
+// ============================================
+
+var shortcutsHelpVisible = false;
+
+function toggleShortcutsHelp() {
+  var existing = document.getElementById('shortcutsHelp');
+  if (existing) {
+    existing.remove();
+    shortcutsHelpVisible = false;
+    return;
+  }
+
+  var overlay = document.createElement('div');
+  overlay.className = 'shortcuts-help';
+  overlay.id = 'shortcutsHelp';
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) {
+      overlay.remove();
+      shortcutsHelpVisible = false;
+    }
+  });
+
+  overlay.innerHTML =
+    '<div class="shortcuts-help-card">' +
+      '<div class="shortcuts-help-title">Keyboard shortcuts</div>' +
+      '<div class="shortcuts-help-grid">' +
+        '<span class="shortcuts-help-key">/</span>' +
+        '<span class="shortcuts-help-desc">Open search</span>' +
+        '<span class="shortcuts-help-key">S</span>' +
+        '<span class="shortcuts-help-desc">Open settings</span>' +
+        '<span class="shortcuts-help-key">?</span>' +
+        '<span class="shortcuts-help-desc">Show this help</span>' +
+        '<span class="shortcuts-help-key">Esc</span>' +
+        '<span class="shortcuts-help-desc">Close panels</span>' +
+      '</div>' +
+    '</div>';
+
+  document.body.appendChild(overlay);
+  shortcutsHelpVisible = true;
+}
+
+function initKeyboardShortcuts() {
+  document.addEventListener('keydown', function (e) {
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+    switch (e.key) {
+      case '/':
+        e.preventDefault();
+        toggleSearchInput();
+        break;
+      case 's':
+        if (!e.ctrlKey && !e.metaKey) {
+          e.preventDefault();
+          openSettings();
+        }
+        break;
+      case '?':
+        e.preventDefault();
+        toggleShortcutsHelp();
+        break;
+      case 'Escape':
+        if (shortcutsHelpVisible) {
+          toggleShortcutsHelp();
+        }
+        break;
+    }
+  });
+}
+
+// ============================================
+// Scroll Reveal
+// ============================================
+
+function initScrollReveal() {
+  if (document.documentElement.getAttribute('data-animations') === 'off') return;
+  if (document.documentElement.getAttribute('data-motion') === 'reduce') return;
+
+  var selector = '.project-card, .merch-preview, .project-card, .colab-link, .stat-card, .social-link, .section-title, .about-grid, .page-header-content';
+  var elements = document.querySelectorAll(selector);
+
+  if (elements.length === 0) return;
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  for (var i = 0; i < elements.length; i++) {
+    elements[i].classList.add('reveal');
+    observer.observe(elements[i]);
+  }
+}
+
+// ============================================
+// Smooth Page Transitions
+// ============================================
+
+function initPageTransitions() {
+  if (sessionStorage.getItem('dante-transition') === 'true') {
+    sessionStorage.removeItem('dante-transition');
+    document.documentElement.classList.add('page-enter');
+    setTimeout(function () {
+      document.documentElement.classList.remove('page-enter');
+    }, 400);
+  }
+
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('a');
+    if (!link) return;
+    if (link.host && link.host !== location.host) return;
+    if (link.target === '_blank') return;
+    if (link.getAttribute('href') === '#' || link.getAttribute('href') === '') return;
+    if (link.hash && link.pathname === location.pathname) return;
+
+    e.preventDefault();
+    document.documentElement.classList.add('page-exit');
+    sessionStorage.setItem('dante-transition', 'true');
+    setTimeout(function () {
+      location.href = link.href;
+    }, 250);
+  });
+}
+
+// ============================================
+// PWA — Service Worker
+// ============================================
+
+function registerSW() {
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/PWA/sw.js');
+  }
+}
+
+// ============================================
+// DOM Ready — Init Everything
+// ============================================
+
 document.addEventListener('DOMContentLoaded', function () {
+  // Apply saved language
+  var savedLang = localStorage.getItem('dante-lang') || 'es';
+  applyI18n(savedLang);
+
+  // Init settings from localStorage (theme, motion, font)
+  applySavedSettings();
+
+  // Sync motion checkbox if drawer is rendered
+  var motionCheckbox = document.getElementById('settingsMotion');
+  if (motionCheckbox) {
+    motionCheckbox.checked = localStorage.getItem('dante-motion') === 'reduce';
+  }
+
+  // Apply accent color
+  var savedAccent = localStorage.getItem('dante-accent') || 'cyan';
+  applyAccentColor(savedAccent);
+
+  // Apply animations
+  var savedAnim = localStorage.getItem('dante-animations') || 'on';
+  applyAnimations(savedAnim === 'on');
+
+  // Apply density
+  var savedDensity = localStorage.getItem('dante-density') || 'normal';
+  applyDensity(savedDensity);
+
+  // Search input listeners
   var searchInput = document.getElementById('searchInput');
   if (searchInput) {
     searchInput.addEventListener('input', function () {
@@ -397,6 +607,17 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     }
   });
+
+  // Set initial aria-expanded on hamburger
+  var hamburger = document.getElementById('hamburger');
+  if (hamburger) hamburger.setAttribute('aria-expanded', 'false');
+
+  // Init features
+  renderScrollTopBtn();
+  initKeyboardShortcuts();
+  initScrollReveal();
+  initPageTransitions();
+  registerSW();
 });
 
 // ===== Escape Key Handler =====

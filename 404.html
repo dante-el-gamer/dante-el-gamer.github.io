@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="404 — Página no encontrada | Dante el Gamer">
   <meta name="author" content="Dante el Gamer">
-  <title data-en="404 — Page not found | Dante el Gamer" data-es="404 — Página no encontrada | Dante el Gamer">404 — Página no encontrada | Dante el Gamer</title>
+  <title data-i18n="404.title"></title>
   <link rel="icon" type="image/png" href="assets/DanteElGamerCharLogo.png">
+  <link rel="manifest" href="/PWA/manifest.json">
+  <meta name="theme-color" content="#202225">
+  <link rel="apple-touch-icon" href="/PWA/Icon/icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -28,14 +32,14 @@
 
         <div class="page-404-center">
           <div class="page-404-code">404</div>
-          <div class="page-404-sub" data-en="error — page not found" data-es="error — página no encontrada">error — página no encontrada</div>
+          <div class="page-404-sub" data-i18n="404.subtitle"></div>
         </div>
 
         <img src="404html/PezQueGira.gif" alt="Pez que gira" class="page-404-fish">
       </div>
 
       <div class="page-404-actions">
-        <a href="/" class="btn btn-primary" data-en="Go home" data-es="Ir al inicio">Ir al inicio</a>
+        <a href="/" class="btn btn-primary" data-i18n="404.cta.home"></a>
       </div>
 
     </div>
@@ -45,13 +49,14 @@
   <footer class="footer">
     <div class="footer-inner">
       <img src="assets/DanteElGamerCharLogo.png" alt="Dante" class="footer-logo">
-      <p class="footer-text" data-en="© 2026 Dante el Gamer. All rights reserved."
-         data-es="© 2026 Dante el Gamer. Todos los derechos reservados.">
-        © 2026 Dante el Gamer. Todos los derechos reservados.
-      </p>
+      <p class="footer-text" data-i18n="footer.copyright"></p>
     </div>
   </footer>
 
+  <div id="settings"></div>
+  <script src="i18n.js"></script>
+  <script src="settings.js"></script>
+  <script>renderSettings();</script>
   <link rel="stylesheet" href="assets/Animations/search.css">
   <script src="script.js"></script>
 </body>

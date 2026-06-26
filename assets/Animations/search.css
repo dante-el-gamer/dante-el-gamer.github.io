@@ -6,6 +6,24 @@
 
 /* ===== Keyframes ===== */
 
+/* ===== Reduced Motion Override ===== */
+html[data-motion="reduce"] .search-dots span {
+  animation: none !important;
+}
+
+html[data-motion="reduce"] .search-overlay {
+  animation: none !important;
+}
+
+html[data-motion="reduce"] .search-overlay.fade-out {
+  animation: none !important;
+  opacity: 0;
+}
+
+html[data-motion="reduce"] .search-result-card {
+  animation: none !important;
+}
+
 @keyframes overlayFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }

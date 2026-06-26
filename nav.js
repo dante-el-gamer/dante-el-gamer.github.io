@@ -12,10 +12,11 @@
 const NAV_ITEMS = [
   { id: 'home',     href: '/',          label: { en: 'Home',    es: 'Inicio' } },
   { id: 'about',    href: '/about',     label: { en: 'About',   es: 'Sobre mí' } },
-  { id: 'projects', href: '/#projects', label: { en: 'Projects', es: 'Proyectos' } },
+  { id: 'projects', href: '/projects', label: { en: 'Projects', es: 'Proyectos' } },
   { id: 'games',    href: '/games',     label: { en: 'Games',   es: 'Juegos' } },
   { id: 'colabs',   href: '/colabs',    label: { en: 'Colabs',  es: 'Colabs' } },
-  { id: 'contact',  href: '/#contact',  label: { en: 'Contact', es: 'Contacto' } },
+  { id: 'merch',    href: '/merch',     label: { en: 'Merch',   es: 'Merch' } },
+  { id: 'contact',  href: '/#contact', label: { en: 'Contact', es: 'Contacto' } },
 ];
 
 /**
@@ -43,7 +44,7 @@ const SEARCH_INDEX = [
     title: { en: 'Projects', es: 'Proyectos' },
     desc: { en: 'My coding projects and engines', es: 'Mis proyectos y engines' },
     keywords: { en: ['projects', 'optimized engine', 'fnf', 'classdeck', 'game', 'cards', 'github'], es: ['proyectos', 'optimized engine', 'fnf', 'classdeck', 'juego', 'cartas', 'github'] },
-    url: '/#projects'
+    url: '/projects'
   },
   {
     id: 'games',
@@ -60,11 +61,18 @@ const SEARCH_INDEX = [
     url: '/colabs'
   },
   {
+    id: 'merch',
+    title: { en: 'Merch', es: 'Merch' },
+    desc: { en: 'Official Dante el Gamer merchandise', es: 'Merch oficial de Dante el Gamer' },
+    keywords: { en: ['merch', 'merchandise', 'hoodie', 'sweater', 'backpack', 'mug', 'cup', 'glass', 'mousepad', 'store', 'shop'], es: ['merch', 'mercancía', 'sudadera', 'mochila', 'taza', 'vaso', 'mausepad', 'tienda', 'comprar'] },
+    url: '/merch'
+  },
+  {
     id: 'contact',
     title: { en: 'Contact', es: 'Contacto' },
     desc: { en: 'Find me on social media', es: 'Encontrame en redes' },
     keywords: { en: ['contact', 'youtube', 'twitch', 'twitter', 'x', 'instagram', 'email', 'social'], es: ['contacto', 'youtube', 'twitch', 'twitter', 'x', 'instagram', 'email', 'social'] },
-    url: '/#contact'
+    url: '/contact'
   },
 ];
 
@@ -72,28 +80,18 @@ const SEARCH_INDEX = [
  * Renders the full nav markup into the placeholder <div id="nav">.
  * Replaces the placeholder element entirely via outerHTML to avoid
  * duplicate element IDs.
+ * Nav links use data-i18n for translation (filled by script.js applyI18n).
  * @param {string} activeId — id from NAV_ITEMS to mark as .active
  */
 function renderNav(activeId) {
-  var lang = localStorage.getItem('dante-lang') || 'es';
-
-  // Build nav link items
+  // Build nav link items with data-i18n (content filled by applyI18n later)
   var linksHTML = '';
   for (var i = 0; i < NAV_ITEMS.length; i++) {
     var item = NAV_ITEMS[i];
     var activeClass = item.id === activeId ? ' class="active"' : '';
     linksHTML += '<li><a href="' + item.href + '"' + activeClass +
-      ' data-en="' + item.label.en + '" data-es="' + item.label.es + '">' +
-      item.label[lang] + '</a></li>';
+      ' data-i18n="nav.' + item.id + '"></a></li>';
   }
-
-  // Search icon as inline SVG (magnifying glass)
-  // onclick="toggleSearchInput()" wired below
-  var searchIcon =
-    '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">' +
-      '<circle cx="11" cy="11" r="8"/>' +
-      '<path d="M21 21l-4.35-4.35"/>' +
-    '</svg>';
 
   var navHTML =
     '<nav class="nav" id="nav">' +
@@ -104,26 +102,17 @@ function renderNav(activeId) {
         '<ul class="nav-links" id="navLinks">' +
           linksHTML +
           '<li>' +
-            '<button class="search-toggle" id="searchToggle" onclick="toggleSearchInput()" aria-label="Search" title="Search">' + searchIcon + '</button>' +
+            '<button class="search-toggle" id="searchToggle" onclick="toggleSearchInput()" aria-label="Search" title="Search"><span class="material-symbols-outlined">search</span></button>' +
           '</li>' +
-          '<li class="lang-switch">' +
-            '<button id="langToggle" class="lang-btn" onclick="toggleLang()">' +
-              '<img class="lang-flag active" data-lang="es" src="/assets/Leng_flags/es.png" alt="ES">' +
-              '<img class="lang-flag" data-lang="en" src="/assets/Leng_flags/en.png" alt="EN">' +
-            '</button>' +
+          '<li>' +
+            '<button class="search-toggle" id="settingsToggle" onclick="openSettings()" aria-label="Settings" title="Settings"><span class="material-symbols-outlined">settings</span></button>' +
           '</li>' +
         '</ul>' +
         '<div class="search-input-wrapper" id="searchInputWrapper">' +
           '<input type="text" class="search-input" id="searchInput" placeholder="Search... / Buscar..." aria-label="Search">' +
-          '<button class="search-toggle" id="searchCloseBtn" onclick="closeSearchInput()" aria-label="Close search">' +
-            '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">' +
-              '<path d="M18 6L6 18"/><path d="M6 6l12 12"/>' +
-            '</svg>' +
-          '</button>' +
+          '<button class="search-toggle" id="searchCloseBtn" onclick="closeSearchInput()" aria-label="Close search"><span class="material-symbols-outlined">close</span></button>' +
         '</div>' +
-        '<button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">' +
-          '<span></span><span></span><span></span>' +
-        '</button>' +
+        '<button class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu"><span class="material-symbols-outlined">menu</span></button>' +
       '</div>' +
     '</nav>';
 

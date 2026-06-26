@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Juegos creados por Dante el Gamer — Itch.io games and projects">
+  <meta name="description" content="Proyectos de Dante el Gamer — Optimized Engine, ClassDeck y más">
   <meta name="author" content="Dante el Gamer">
-  <title data-i18n="page.games.title"></title>
+  <title data-i18n="page.projects.title"></title>
   <link rel="icon" type="image/png" href="../assets/DanteElGamerCharLogo.png">
   <link rel="manifest" href="/PWA/manifest.json">
   <meta name="theme-color" content="#202225">
@@ -15,84 +15,84 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
   <link rel="stylesheet" href="../style.css">
+
+  <!-- iFrame detection: hide nav/footer when embedded -->
+  <script>
+    if (window.top !== window.self) {
+      document.documentElement.classList.add('in-iframe');
+    }
+  </script>
 </head>
 <body>
 
   <script src="../nav.js"></script>
   <div id="nav"></div>
-  <script>renderNav('games');</script>
+  <script>renderNav('projects');</script>
 
   <!-- ===== PAGE HEADER ===== -->
   <section class="page-header">
     <div class="page-header-bg"></div>
     <div class="page-header-content">
-      <h1 class="page-header-title" data-i18n="games.title"></h1>
-      <p class="page-header-sub" data-i18n="games.subtitle"></p>
+      <h1 class="page-header-title" data-i18n="projects.title"></h1>
     </div>
   </section>
 
-  <!-- ===== GAMES GRID ===== -->
-  <section class="section section-alt">
+  <!-- ===== PROJECTS GRID ===== -->
+  <section class="section">
     <div class="section-inner">
       <div class="projects-grid">
 
-        <!-- DEValen runner -->
+        <!-- Optimized Engine V1 -->
         <div class="project-card">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="tag">Platformer</span>
-              <span class="tag">Game</span>
-            </div>
-            <h3 class="project-title">DEValen runner</h3>
-            <p class="project-desc" data-i18n="games.devalen.desc"></p>
-            <div class="project-links">
-              <a href="https://danteelgamer-yt.itch.io/devalen-runner" target="_blank" rel="noopener" class="btn btn-small">Itch.io</a>
-            </div>
+          <div class="project-preview">
+            <img src="../assets/Projects/Optimized%20Engine%20V1/CapturasDePantalla/OEmenu.png" alt="Optimized Engine V1" loading="lazy">
           </div>
-        </div>
-
-        <!-- Friday Night Funkin' Optimized -->
-        <div class="project-card">
           <div class="project-info">
             <div class="project-tags">
               <span class="tag">FNF</span>
               <span class="tag">Engine</span>
             </div>
-            <h3 class="project-title">Friday Night Funkin' Optimized</h3>
-            <p class="project-desc" data-i18n="games.fnfopt.desc"></p>
+            <h3 class="project-title" data-i18n="projects.oe1.title"></h3>
+            <p class="project-desc" data-i18n="projects.oe1.desc"></p>
             <div class="project-links">
-              <a href="https://danteelgamer-yt.itch.io/friday-night-funkin-optimized" target="_blank" rel="noopener" class="btn btn-small">Itch.io</a>
+              <a href="https://github.com/danteelgamer/OptimizedEngineV1" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
             </div>
           </div>
         </div>
 
-        <!-- Gometry Dash Eye Test -->
+        <!-- Optimized Engine V2 -->
         <div class="project-card">
-          <div class="project-info">
-            <div class="project-tags">
-              <span class="tag">GD</span>
-              <span class="tag">Test</span>
-            </div>
-            <h3 class="project-title">Gometry Dash Eye Test</h3>
-            <p class="project-desc" data-i18n="games.gometry.desc"></p>
-            <div class="project-links">
-              <a href="https://danteelgamer-yt.itch.io/gometry-dash-eye-test" target="_blank" rel="noopener" class="btn btn-small">Itch.io</a>
+          <div class="project-preview">
+            <div class="project-logo-svg">
+              <img src="../assets/Projects/Optimized%20Engine%20V2/OptimizedEngineV2logo.png" alt="Optimized Engine V2" loading="lazy">
             </div>
           </div>
-        </div>
-
-        <!-- FNF BF Test -->
-        <div class="project-card">
           <div class="project-info">
             <div class="project-tags">
               <span class="tag">FNF</span>
-              <span class="tag">Test</span>
+              <span class="tag">Engine</span>
+              <span class="tag">V2</span>
             </div>
-            <h3 class="project-title">FNF BF Test</h3>
-            <p class="project-desc" data-i18n="games.fnfbf.desc"></p>
+            <h3 class="project-title" data-i18n="projects.oe2.title"></h3>
+            <p class="project-desc" data-i18n="projects.oe2.desc"></p>
             <div class="project-links">
-              <a href="https://danteelgamer-yt.itch.io/fnf-bf-test" target="_blank" rel="noopener" class="btn btn-small">Itch.io</a>
+              <a href="https://github.com/danteelgamer/OptimizedEngineV2" target="_blank" rel="noopener" class="btn btn-small">GitHub</a>
             </div>
+          </div>
+        </div>
+
+        <!-- ClassDeck -->
+        <div class="project-card">
+          <div class="project-preview">
+            <img src="../assets/Projects/ClassDeck/ClassDeckLogo.png" alt="ClassDeck" loading="lazy">
+          </div>
+          <div class="project-info">
+            <div class="project-tags">
+              <span class="tag">Game</span>
+              <span class="tag">Cards</span>
+            </div>
+            <h3 class="project-title" data-i18n="projects.classdeck.title"></h3>
+            <p class="project-desc" data-i18n="projects.classdeck.desc"></p>
           </div>
         </div>
 
