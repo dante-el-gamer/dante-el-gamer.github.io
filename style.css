@@ -1070,6 +1070,124 @@ img { max-width: 100%; height: auto; display: block; }
   cursor: pointer;
 }
 
+/* ===== Discord Connect ===== */
+.settings-discord-group {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 16px;
+  margin-top: 8px;
+}
+
+.settings-discord-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  background: #5865F2;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+  width: 100%;
+  justify-content: center;
+}
+
+.settings-discord-btn:hover {
+  background: #4752C4;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(88, 101, 242, 0.3);
+}
+
+.settings-discord-icon {
+  flex-shrink: 0;
+}
+
+.settings-discord-connected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-subtle);
+  background: var(--dkgray);
+}
+
+.settings-discord-user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--twhite);
+}
+
+.settings-discord-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.settings-discord-status {
+  font-size: 0.75rem;
+  color: var(--bwhite);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settings-discord-disconnect {
+  width: 100%;
+}
+
+/* ===== Discord OAuth Toast ===== */
+.discord-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1003;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: 10px;
+  background: #5865F2;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: discordToastIn 0.3s ease;
+  pointer-events: none;
+}
+
+.discord-toast--error {
+  background: #ed4245;
+}
+
+.discord-toast--hide {
+  animation: discordToastOut 0.3s ease forwards;
+}
+
+.discord-toast-icon {
+  font-size: 1.3rem;
+}
+
+@keyframes discordToastIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(16px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes discordToastOut {
+  from { opacity: 1; transform: translateX(-50%) translateY(0); }
+  to   { opacity: 0; transform: translateX(-50%) translateY(16px); }
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .about-grid {
@@ -1319,18 +1437,32 @@ img { max-width: 100%; height: auto; display: block; }
 .reveal.revealed:nth-child(5) { transition-delay: 0.2s; }
 
 /* ===== Page Transitions ===== */
-html.page-exit {
-  opacity: 0;
-  transition: opacity 0.25s ease;
+html.page-exit::after,
+html.page-enter::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--accent);
+  pointer-events: none;
 }
 
-html.page-enter {
-  animation: pageFadeIn 0.3s ease;
+html.page-exit::after {
+  animation: pageExitFadeIn 0.25s ease forwards;
 }
 
-@keyframes pageFadeIn {
+html.page-enter::after {
+  animation: pageEnterFadeOut 0.3s ease forwards;
+}
+
+@keyframes pageExitFadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes pageEnterFadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
 /* Prevent FOIT during transitions */

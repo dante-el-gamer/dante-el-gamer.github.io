@@ -5,6 +5,10 @@
  * I18N global is available at this point.
  */
 
+const DISCORD_CLIENT_ID = '1520178317381079162';
+const DISCORD_REDIRECT_URI = window.location.origin + '/discord-callback.html';
+const DISCORD_SCOPE = 'identify';
+
 let currentLang = localStorage.getItem('dante-lang') || 'es';
 
 // ============================================
@@ -479,6 +483,146 @@ function initKeyboardShortcuts() {
 }
 
 // ============================================
+// Discord OAuth — PKCE Flow
+// ============================================
+
+var discordConnected = localStorage.getItem('dante-discord') === 'connected';
+
+function base64url(buf) {
+  var bytes = [];
+  for (var i = 0; i < buf.length; i++) bytes.push(buf[i]);
+  return btoa(String.fromCharCode.apply(null, bytes))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+function generateCodeVerifier() {
+  var arr = new Uint8Array(32);
+  crypto.getRandomValues(arr);
+  return base64url(arr);
+}
+
+function generateCodeChallenge(verifier) {
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode(verifier))
+    .then(function(buf) { return base64url(new Uint8Array(buf)); });
+}
+
+function toggleDiscord() {
+  if (discordConnected) return disconnectDiscord();
+  connectDiscord();
+}
+
+function connectDiscord() {
+  if (!crypto || !crypto.subtle) {
+    alert('Tu navegador no soporta el inicio de sesión seguro. Probá con Chrome, Firefox o Edge.');
+    return;
+  }
+
+  var verifier = generateCodeVerifier();
+  var state = generateCodeVerifier();
+  localStorage.setItem('dante-discord-verifier', verifier);
+  localStorage.setItem('dante-discord-state', state);
+
+  generateCodeChallenge(verifier).then(function(challenge) {
+    var params = new URLSearchParams({
+      client_id: DISCORD_CLIENT_ID,
+      response_type: 'code',
+      redirect_uri: DISCORD_REDIRECT_URI,
+      scope: DISCORD_SCOPE,
+      code_challenge: challenge,
+      code_challenge_method: 'S256',
+      state: state,
+    });
+    window.location.href = 'https://discord.com/api/oauth2/authorize?' + params.toString();
+  });
+}
+
+function disconnectDiscord() {
+  var token = localStorage.getItem('dante-discord-token');
+  if (token) {
+    fetch('https://discord.com/api/oauth2/token/revoke', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        client_id: DISCORD_CLIENT_ID,
+        token: token,
+        token_type_hint: 'access_token',
+      }).toString()
+    });
+  }
+  clearDiscordSession();
+  discordConnected = false;
+  applyDiscordState();
+}
+
+function clearDiscordSession() {
+  var keys = [
+    'dante-discord', 'dante-discord-name', 'dante-discord-id',
+    'dante-discord-avatar', 'dante-discord-token', 'dante-discord-refresh',
+    'dante-discord-verifier', 'dante-discord-state'
+  ];
+  for (var i = 0; i < keys.length; i++) localStorage.removeItem(keys[i]);
+}
+
+function applyDiscordState() {
+  var btn = document.getElementById('settingsDiscordBtn');
+  var connected = document.getElementById('settingsDiscordConnected');
+  var nameEl = document.getElementById('settingsDiscordName');
+  var avatarEl = document.getElementById('settingsDiscordAvatar');
+  if (!btn || !connected || !nameEl) return;
+
+  if (discordConnected) {
+    btn.style.display = 'none';
+    connected.style.display = 'flex';
+    nameEl.textContent = localStorage.getItem('dante-discord-name') || 'Discord User';
+    if (avatarEl) {
+      var avatarUrl = localStorage.getItem('dante-discord-avatar');
+      avatarEl.src = avatarUrl || '/assets/DanteElGamerCharLogo.png';
+      avatarEl.style.display = avatarUrl ? '' : 'none';
+    }
+  } else {
+    btn.style.display = 'inline-flex';
+    connected.style.display = 'none';
+  }
+}
+
+// ============================================
+// Discord OAuth Toast
+// ============================================
+
+function handleDiscordToast() {
+  var params = new URLSearchParams(window.location.search);
+  var status = params.get('discord');
+  if (!status) return;
+
+  var text = '';
+  var isError = false;
+  if (status === 'success') {
+    text = 'Conectado a Discord correctamente';
+  } else {
+    text = 'Error al conectar Discord';
+    isError = true;
+  }
+
+  var toast = document.createElement('div');
+  toast.className = 'discord-toast' + (isError ? ' discord-toast--error' : '');
+  toast.innerHTML =
+    '<span class="discord-toast-icon material-symbols-outlined">' +
+    (isError ? 'error' : 'check_circle') +
+    '</span>' +
+    '<span>' + text + '</span>';
+  document.body.appendChild(toast);
+
+  // Clean URL
+  var cleanUrl = window.location.pathname + window.location.hash;
+  window.history.replaceState({}, '', cleanUrl);
+
+  setTimeout(function () {
+    toast.classList.add('discord-toast--hide');
+    setTimeout(function () { toast.remove(); }, 300);
+  }, 4000);
+}
+
+// ============================================
 // Scroll Reveal
 // ============================================
 
@@ -575,6 +719,10 @@ document.addEventListener('DOMContentLoaded', function () {
   // Apply density
   var savedDensity = localStorage.getItem('dante-density') || 'normal';
   applyDensity(savedDensity);
+
+  // Discord state
+  applyDiscordState();
+  handleDiscordToast();
 
   // Search input listeners
   var searchInput = document.getElementById('searchInput');
