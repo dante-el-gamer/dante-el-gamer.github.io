@@ -188,7 +188,7 @@
       .catch(function (err) {
         console.error('Discord OAuth error:', err);
         var msg = err.message || '';
-        if (msg.indexOf('disallowed') !== -1 || msg.indexOf('unauthorized') !== -1 || msg.indexOf('405') !== -1) {
+        if (msg.indexOf('disallowed') !== -1 || msg.indexOf('unauthorized') !== -1 || msg.indexOf('405') !== -1 || msg.indexOf('invalid_client') !== -1 || msg.indexOf('code_verifier') !== -1) {
           setStatus(
             'El intercambio PKCE fall&oacute;. Asegurate de marcar la app como <strong>Public Client</strong> en ' +
             'Discord Developer Portal &rarr; OAuth2 &rarr; General.',

@@ -533,6 +533,8 @@ function connectDiscord() {
       state: state,
     });
     window.location.href = 'https://discord.com/api/oauth2/authorize?' + params.toString();
+  }).catch(function () {
+    alert('Error al generar el challenge de seguridad. Probá de nuevo.');
   });
 }
 
@@ -547,6 +549,8 @@ function disconnectDiscord() {
         token: token,
         token_type_hint: 'access_token',
       }).toString()
+    }).catch(function () {
+      // Revoke from browser often fails (CORS). Session is cleared locally anyway.
     });
   }
   clearDiscordSession();
