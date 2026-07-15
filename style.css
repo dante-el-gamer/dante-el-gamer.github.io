@@ -537,6 +537,7 @@ img { max-width: 100%; height: auto; display: block; }
   font-weight: 500;
   transition: all var(--transition);
   text-decoration: none;
+  position: relative;
 }
 
 .social-link:hover {
@@ -544,6 +545,13 @@ img { max-width: 100%; height: auto; display: block; }
   transform: translateY(-3px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   color: var(--accent) !important;
+}
+
+.social-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }
 
 .social-icon {
@@ -1485,4 +1493,18 @@ html.page-enter * {
   .shortcuts-help-card {
     padding: 24px;
   }
+}
+
+/* ============================================
+   Fallback: Material Icons (static woff2)
+   for devices that don't support variable fonts
+   (Nintendo Switch, older mobile browsers)
+   ============================================ */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined', 'Material Icons', sans-serif;
+  font-display: swap;
+}
+
+.material-symbols-outlined::before {
+  font-family: 'Material Symbols Outlined', 'Material Icons', sans-serif;
 }
