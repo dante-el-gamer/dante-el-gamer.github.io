@@ -126,6 +126,12 @@ const I18N = {
     'settings.discord.connected': 'Conectado como',
     'settings.discord.notconnected': 'No conectado',
 
+    'settings.github': 'GitHub',
+    'settings.github.connect': 'Conectar GitHub',
+    'settings.github.disconnect': 'Desconectar',
+    'settings.github.connected': 'Conectado como',
+    'settings.github.notconnected': 'No conectado',
+
     'lang.es': 'Español',
     'lang.en': 'English',
     'lang.pt': 'Português',
@@ -252,6 +258,12 @@ const I18N = {
     'settings.discord.disconnect': 'Disconnect',
     'settings.discord.connected': 'Connected as',
     'settings.discord.notconnected': 'Not connected',
+
+    'settings.github': 'GitHub',
+    'settings.github.connect': 'Connect GitHub',
+    'settings.github.disconnect': 'Disconnect',
+    'settings.github.connected': 'Connected as',
+    'settings.github.notconnected': 'Not connected',
 
     'lang.es': 'Español',
     'lang.en': 'English',
@@ -380,6 +392,12 @@ const I18N = {
     'settings.discord.connected': 'Conectado como',
     'settings.discord.notconnected': 'Não conectado',
 
+    'settings.github': 'GitHub',
+    'settings.github.connect': 'Conectar GitHub',
+    'settings.github.disconnect': 'Desconectar',
+    'settings.github.connected': 'Conectado como',
+    'settings.github.notconnected': 'Não conectado',
+
     'lang.es': 'Español',
     'lang.en': 'English',
     'lang.pt': 'Português',
@@ -501,6 +519,12 @@ const I18N = {
     'settings.discord.connected': 'Connesso come',
     'settings.discord.notconnected': 'Non connesso',
 
+    'settings.github': 'GitHub',
+    'settings.github.connect': 'Collega GitHub',
+    'settings.github.disconnect': 'Disconnetti',
+    'settings.github.connected': 'Connesso come',
+    'settings.github.notconnected': 'Non connesso',
+
     'lang.es': 'Español',
     'lang.en': 'English',
     'lang.pt': 'Português',
@@ -621,6 +645,12 @@ const I18N = {
     'settings.discord.disconnect': 'Déconnecter',
     'settings.discord.connected': 'Connecté en tant que',
     'settings.discord.notconnected': 'Non connecté',
+
+    'settings.github': 'GitHub',
+    'settings.github.connect': 'Connecter GitHub',
+    'settings.github.disconnect': 'Déconnecter',
+    'settings.github.connected': 'Connecté en tant que',
+    'settings.github.notconnected': 'Non connecté',
 
     'lang.es': 'Español',
     'lang.en': 'English',
