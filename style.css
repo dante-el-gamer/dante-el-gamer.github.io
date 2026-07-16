@@ -1110,15 +1110,6 @@ img { max-width: 100%; height: auto; display: block; }
   box-shadow: 0 4px 16px rgba(88, 101, 242, 0.3);
 }
 
-.settings-github-btn {
-  background: #333333;
-}
-
-.settings-github-btn:hover {
-  background: #444444;
-  box-shadow: 0 4px 16px rgba(51, 51, 51, 0.3);
-}
-
 .settings-discord-icon {
   flex-shrink: 0;
 }
@@ -1204,41 +1195,6 @@ img { max-width: 100%; height: auto; display: block; }
 @keyframes discordToastOut {
   from { opacity: 1; transform: translateX(-50%) translateY(0); }
   to   { opacity: 0; transform: translateX(-50%) translateY(16px); }
-}
-
-/* ===== GitHub OAuth Toast ===== */
-.github-toast {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 20px;
-  background: #161b22;
-  color: #c9d1d9;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  font-size: 0.9rem;
-  z-index: 10000;
-  transition: opacity 0.3s, transform 0.3s;
-}
-.github-toast--error {
-  border-color: #f85149;
-}
-.github-toast--hide {
-  opacity: 0;
-  transform: translateX(-50%) translateY(10px);
-  pointer-events: none;
-}
-.github-toast-icon {
-  font-size: 1.3rem;
-  color: #238636;
-}
-.github-toast--error .github-toast-icon {
-  color: #f85149;
 }
 
 /* ===== RESPONSIVE ===== */

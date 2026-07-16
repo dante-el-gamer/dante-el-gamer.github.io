@@ -9,10 +9,6 @@ const DISCORD_CLIENT_ID = '1520178317381079162';
 const DISCORD_REDIRECT_URI = window.location.origin + '/discord-callback.html';
 const DISCORD_SCOPE = 'identify';
 
-const GITHUB_CLIENT_ID = 'Iv23lisPmPE5cqJBRgcr';
-const GITHUB_REDIRECT_URI = window.location.origin + '/github-callback.html';
-const GITHUB_SCOPE = 'read:user';
-
 let currentLang = localStorage.getItem('dante-lang') || 'es';
 
 // ============================================
@@ -491,7 +487,6 @@ function initKeyboardShortcuts() {
 // ============================================
 
 var discordConnected = localStorage.getItem('dante-discord') === 'connected';
-var githubConnected = localStorage.getItem('dante-github') === 'connected';
 
 function base64url(buf) {
   var bytes = [];
@@ -592,116 +587,6 @@ function applyDiscordState() {
     btn.style.display = 'inline-flex';
     connected.style.display = 'none';
   }
-}
-
-// ============================================
-// GitHub OAuth
-// ============================================
-
-function toggleGitHub() {
-  if (githubConnected) return disconnectGitHub();
-  connectGitHub();
-}
-
-function connectGitHub() {
-  if (!crypto || !crypto.subtle) {
-    alert('Tu navegador no soporta el inicio de sesión seguro. Probá con Chrome, Firefox o Edge.');
-    return;
-  }
-
-  var verifier = generateCodeVerifier();
-  var state = generateCodeVerifier();
-  localStorage.setItem('dante-github-verifier', verifier);
-  localStorage.setItem('dante-github-state', state);
-
-  generateCodeChallenge(verifier).then(function(challenge) {
-    var params = new URLSearchParams({
-      client_id: GITHUB_CLIENT_ID,
-      redirect_uri: GITHUB_REDIRECT_URI,
-      scope: GITHUB_SCOPE,
-      code_challenge: challenge,
-      code_challenge_method: 'S256',
-      state: state,
-    });
-    window.location.href = 'https://github.com/login/oauth/authorize?' + params.toString();
-  }).catch(function () {
-    alert('Error al generar el challenge de seguridad. Probá de nuevo.');
-  });
-}
-
-function disconnectGitHub() {
-  clearGitHubSession();
-  githubConnected = false;
-  applyGitHubState();
-}
-
-function clearGitHubSession() {
-  var keys = [
-    'dante-github', 'dante-github-name', 'dante-github-login',
-    'dante-github-id', 'dante-github-avatar', 'dante-github-token',
-    'dante-github-verifier', 'dante-github-state',
-    'dante-github-bio', 'dante-github-url'
-  ];
-  for (var i = 0; i < keys.length; i++) localStorage.removeItem(keys[i]);
-}
-
-function applyGitHubState() {
-  var btn = document.getElementById('settingsGitHubBtn');
-  var connected = document.getElementById('settingsGitHubConnected');
-  var nameEl = document.getElementById('settingsGitHubName');
-  var avatarEl = document.getElementById('settingsGitHubAvatar');
-  if (!btn || !connected || !nameEl) return;
-
-  if (githubConnected) {
-    btn.style.display = 'none';
-    connected.style.display = 'flex';
-    nameEl.textContent = localStorage.getItem('dante-github-name') || 'GitHub User';
-    if (avatarEl) {
-      var avatarUrl = localStorage.getItem('dante-github-avatar');
-      avatarEl.src = avatarUrl || '/assets/DanteElGamerCharLogo.png';
-      avatarEl.style.display = avatarUrl ? '' : 'none';
-    }
-  } else {
-    btn.style.display = 'inline-flex';
-    connected.style.display = 'none';
-  }
-}
-
-// ============================================
-// GitHub OAuth Toast
-// ============================================
-
-function handleGitHubToast() {
-  var params = new URLSearchParams(window.location.search);
-  var status = params.get('github');
-  if (!status) return;
-
-  var text = '';
-  var isError = false;
-  if (status === 'success') {
-    text = 'Conectado a GitHub correctamente';
-  } else {
-    text = 'Error al conectar GitHub';
-    isError = true;
-  }
-
-  var toast = document.createElement('div');
-  toast.className = 'github-toast' + (isError ? ' github-toast--error' : '');
-  toast.innerHTML =
-    '<span class="github-toast-icon material-symbols-outlined">' +
-    (isError ? 'error' : 'check_circle') +
-    '</span>' +
-    '<span>' + text + '</span>';
-  document.body.appendChild(toast);
-
-  // Clean URL
-  var cleanUrl = window.location.pathname + window.location.hash;
-  window.history.replaceState({}, '', cleanUrl);
-
-  setTimeout(function () {
-    toast.classList.add('github-toast--hide');
-    setTimeout(function () { toast.remove(); }, 300);
-  }, 4000);
 }
 
 // ============================================
@@ -842,10 +727,6 @@ document.addEventListener('DOMContentLoaded', function () {
   // Discord state
   applyDiscordState();
   handleDiscordToast();
-
-  // GitHub state
-  applyGitHubState();
-  handleGitHubToast();
 
   // Search input listeners
   var searchInput = document.getElementById('searchInput');
