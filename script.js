@@ -9,7 +9,7 @@ const DISCORD_CLIENT_ID = '1520178317381079162';
 const DISCORD_REDIRECT_URI = window.location.origin + '/discord-callback.html';
 const DISCORD_SCOPE = 'identify';
 
-const GITHUB_CLIENT_ID = 'Ov23li21sLN57xhuSweb';
+const GITHUB_CLIENT_ID = 'Iv23lisPmPE5cqJBRgcr';
 const GITHUB_REDIRECT_URI = window.location.origin + '/github-callback.html';
 const GITHUB_SCOPE = 'read:user';
 
