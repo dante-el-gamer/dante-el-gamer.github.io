@@ -1110,6 +1110,15 @@ img { max-width: 100%; height: auto; display: block; }
   box-shadow: 0 4px 16px rgba(88, 101, 242, 0.3);
 }
 
+.settings-github-btn {
+  background: #333333;
+}
+
+.settings-github-btn:hover {
+  background: #444444;
+  box-shadow: 0 4px 16px rgba(51, 51, 51, 0.3);
+}
+
 .settings-discord-icon {
   flex-shrink: 0;
 }
